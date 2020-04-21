@@ -32,32 +32,32 @@ public class Main extends Application {
 
 	class MyHandler implements EventHandler<ActionEvent> {
 		Button button;
+		CheckBox cb;
 		CheckBox confirmed;
 		CheckBox recovered;
 		CheckBox deaths;
 		
-		MyHandler(CheckBox cb) {
-			if(cb.getText().equals("Total Confirmed Cases")) {
-				confirmed = cb;
-				//confirmed.setSelected(true);
-			} else if(cb.getText().equals("Total Recovered Cases")) {
-				recovered = cb;
-				//recovered.setSelected(true);
-			} else if (cb.getText().equals("Total Number of Deaths")) {
-				deaths = cb;
-				//deaths.setSelected(true);
-			}
-		}
-
-		MyHandler(Button button) {
+		MyHandler(Button button, CheckBox cb1, CheckBox cb2, CheckBox cb3) {
+			this.confirmed = cb1;
+			this.recovered = cb2;
+			this.deaths = cb3;
 			this.button = button;
 		}
 
 		public void handle(ActionEvent e) {
+			
 			// user clicked search button... create graph based on user selections
 			if (button.getText().equals("Search")) {
 				// check which check boxes were selected by user
-			
+				if(confirmed.isSelected()) {
+					// get confirmed data and make as a series
+				} 
+				if(recovered.isSelected()) {
+					// get recovered data and make as a series
+				} 
+				if(deaths.isSelected()) {
+					// get death data and make as a series
+				}
 				// adds the secondary stage for graph window
 				Stage secondaryStage = new Stage();
 				BorderPane root2 = new BorderPane();
@@ -65,10 +65,9 @@ public class Main extends Application {
 				// adds chart to root pane
 				VBox graph = graph();
 				root2.setCenter(graph);
-
+				
 				// adds and makes visible the second scene
 				Scene secondScene = new Scene(root2, WINDOW_WIDTH, WINDOW_HEIGHT);
-				
 				secondaryStage.setTitle(APP_TITLE + " Graph");
 				secondaryStage.setScene(secondScene);
 				secondaryStage.show();
@@ -122,16 +121,12 @@ public class Main extends Application {
 		HBox h2 = new HBox(cb2);
 		HBox h3 = new HBox(cb3);
 		
-		// create handler instances for check boxes
-		MyHandler cb1_handler = new MyHandler(cb1);
-		MyHandler cb2_handler = new MyHandler(cb2);
-		MyHandler cb3_handler = new MyHandler(cb3);
 
 		// search button
 		Button search = new Button("Search");
 
-		// create the handler instance for search button
-		MyHandler search_handler = new MyHandler(search);
+		// create the handler instance for search button & check boxes
+		MyHandler search_handler = new MyHandler(search, cb1, cb2, cb3);
 		search.setOnAction(search_handler);
 
 		// add check boxes to v box
@@ -186,38 +181,4 @@ public class Main extends Application {
 		return chart;
 	}
 
-	private VBox userSelect() {
-		// country to search data from
-		String country[] = { "Country A", "Country B", "Country C", "Country D" };
-
-		// create a combo box
-		ComboBox<String> combo = new ComboBox<String>(FXCollections.observableArrayList(country));
-
-		// label for combo box
-		Label combo_label = new Label("Select County: ");
-
-		// horizontal box to hold label and combo box of countries
-		HBox hcombo = new HBox();
-		hcombo.getChildren().addAll(combo_label, combo);
-
-		// create check boxes to select which data to display
-		CheckBox cb1 = new CheckBox("Total Confirmed Cases");
-		CheckBox cb2 = new CheckBox("Total Recovered Cases");
-		CheckBox cb3 = new CheckBox("Total Number of Deaths");
-
-		// h box for check boxes
-		HBox h1 = new HBox(cb1);
-		HBox h2 = new HBox(cb2);
-		HBox h3 = new HBox(cb3);
-
-		// search button
-		Button search = new Button("Search");
-
-		// add check boxes to v box
-		VBox v_left = new VBox();
-		v_left.getChildren().addAll(hcombo, h1, h2, h3, search);
-
-		return v_left;
-
-	}
 }
