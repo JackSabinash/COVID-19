@@ -193,7 +193,7 @@ public class Main extends Application {
 		root.setRight(options);
 
 
-		// creates main window
+		// creates main window 
 		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		// Add the stuff and set the primary stage
