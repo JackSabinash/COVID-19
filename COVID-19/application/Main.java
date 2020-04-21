@@ -32,15 +32,16 @@ public class Main extends Application {
 
 	class MyHandler implements EventHandler<ActionEvent> {
 		Button button;
-		CheckBox cb;
+		ComboBox combo;
 		CheckBox confirmed;
 		CheckBox recovered;
 		CheckBox deaths;
 		
-		MyHandler(Button button, CheckBox cb1, CheckBox cb2, CheckBox cb3) {
+		MyHandler(Button button, ComboBox<String> combo, CheckBox cb1, CheckBox cb2, CheckBox cb3) {
 			this.confirmed = cb1;
 			this.recovered = cb2;
 			this.deaths = cb3;
+			this.combo = combo;
 			this.button = button;
 		}
 
@@ -48,22 +49,16 @@ public class Main extends Application {
 			
 			// user clicked search button... create graph based on user selections
 			if (button.getText().equals("Search")) {
-				// check which check boxes were selected by user
-				if(confirmed.isSelected()) {
-					// get confirmed data and make as a series
-				} 
-				if(recovered.isSelected()) {
-					// get recovered data and make as a series
-				} 
-				if(deaths.isSelected()) {
-					// get death data and make as a series
-				}
+
 				// adds the secondary stage for graph window
 				Stage secondaryStage = new Stage();
 				BorderPane root2 = new BorderPane();
-
+				
+				// country to be searching data from
+				String country = (String) combo.getValue();
+				
 				// adds chart to root pane
-				VBox graph = graph(confirmed.isSelected(), recovered.isSelected(), deaths.isSelected());
+				VBox graph = graph(country, confirmed.isSelected(), recovered.isSelected(), deaths.isSelected());
 				root2.setCenter(graph);
 				
 				// adds and makes visible the second scene
@@ -126,7 +121,7 @@ public class Main extends Application {
 		Button search = new Button("Search");
 
 		// create the handler instance for search button & check boxes
-		MyHandler search_handler = new MyHandler(search, cb1, cb2, cb3);
+		MyHandler search_handler = new MyHandler(search, combo, cb1, cb2, cb3);
 		search.setOnAction(search_handler);
 
 		// add check boxes to v box
@@ -157,7 +152,7 @@ public class Main extends Application {
 	// graph to show data user selected
 	// only show graph once user has clicked 'search' button & then use data files
 	// to display info
-	private VBox graph(boolean confirmed, boolean recovered, boolean deaths) {
+	private VBox graph(String country, boolean confirmed, boolean recovered, boolean deaths) {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
@@ -207,7 +202,7 @@ public class Main extends Application {
 
 		
 
-		lineChart.setTitle("COVID-19 Spread Data");
+		lineChart.setTitle("COVID-19 Spread Data for " + country);
 		VBox chart = new VBox(lineChart);
 
 		return chart;
