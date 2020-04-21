@@ -63,7 +63,7 @@ public class Main extends Application {
 				BorderPane root2 = new BorderPane();
 
 				// adds chart to root pane
-				VBox graph = graph();
+				VBox graph = graph(confirmed.isSelected(), recovered.isSelected(), deaths.isSelected());
 				root2.setCenter(graph);
 				
 				// adds and makes visible the second scene
@@ -157,23 +157,55 @@ public class Main extends Application {
 	// graph to show data user selected
 	// only show graph once user has clicked 'search' button & then use data files
 	// to display info
-	private VBox graph() {
+	private VBox graph(boolean confirmed, boolean recovered, boolean deaths) {
 		CategoryAxis xAxis = new CategoryAxis();
 		NumberAxis yAxis = new NumberAxis();
 		xAxis.setLabel("Date");
 		yAxis.setLabel("Total Number");
 		LineChart lineChart = new LineChart(xAxis, yAxis);
 
-		XYChart.Series series1 = new XYChart.Series();
-		series1.setName("Recovered Cases");
+		// checks which check boxes have been selected by user
+		if(confirmed) {
+			// create confirmed cases data series
+			XYChart.Series<Integer, String> c_data = new XYChart.Series<Integer, String>();
+			c_data.setName("Confirmed Cases");
+			
+			c_data.getData().add(new XYChart.Data("1/1/2020", 3));
+			c_data.getData().add(new XYChart.Data("1/15/2020", 15));
+			c_data.getData().add(new XYChart.Data("2/1/2020", 41));
+			c_data.getData().add(new XYChart.Data("2/15/2020", 56));
+			c_data.getData().add(new XYChart.Data("3/1/2020", 77));
+			
+			lineChart.getData().addAll(c_data);
+		}
+		if(recovered) {
+			// create recovered cases data series
+			XYChart.Series<Integer, String> r_data = new XYChart.Series<Integer, String>();
+			r_data.setName("Recovered Cases");
+			
+			r_data.getData().add(new XYChart.Data("1/1/2020", 1));
+			r_data.getData().add(new XYChart.Data("1/15/2020", 5));
+			r_data.getData().add(new XYChart.Data("2/1/2020", 13));
+			r_data.getData().add(new XYChart.Data("2/15/2020", 22));
+			r_data.getData().add(new XYChart.Data("3/1/2020", 37));
+			
+			lineChart.getData().addAll(r_data);
+		}
+		if(deaths) {
+			// create num of deaths data series
+			XYChart.Series<Integer, String> d_data = new XYChart.Series<Integer, String>();
+			d_data.setName("Deaths");
+			
+			d_data.getData().add(new XYChart.Data("1/1/2020", 0));
+			d_data.getData().add(new XYChart.Data("1/15/2020", 2));
+			d_data.getData().add(new XYChart.Data("2/1/2020", 4));
+			d_data.getData().add(new XYChart.Data("2/15/2020", 8));
+			d_data.getData().add(new XYChart.Data("3/1/2020", 23));
+			
+			lineChart.getData().addAll(d_data);
+		}
 
-		series1.getData().add(new XYChart.Data("1/1/2020", 1));
-		series1.getData().add(new XYChart.Data("1/15/2020", 5));
-		series1.getData().add(new XYChart.Data("2/1/2020", 13));
-		series1.getData().add(new XYChart.Data("2/15/2020", 22));
-		series1.getData().add(new XYChart.Data("3/1/2020", 37));
-
-		lineChart.getData().addAll(series1);
+		
 
 		lineChart.setTitle("COVID-19 Spread Data");
 		VBox chart = new VBox(lineChart);
