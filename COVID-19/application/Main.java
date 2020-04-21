@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -44,11 +45,15 @@ public class Main extends Application {
 			this.combo = combo;
 			this.button = button;
 		}
+		
+		MyHandler(Button button) {
+			this.button = button;
+		}
 
 		public void handle(ActionEvent e) {
 			
 			// user clicked search button... create graph based on user selections
-			if (button.getText().equals("Search")) {
+			if (button.getText().equals("Graph Data")) {
 
 				// adds the secondary stage for graph window
 				Stage secondaryStage = new Stage();
@@ -67,13 +72,19 @@ public class Main extends Application {
 				secondaryStage.setScene(secondScene);
 				secondaryStage.show();
 
+			} else if(button.getText().equals("Add new date.")) {
+				
+			} else if(button.getText().equals("Remove a date.")) {
+				
+			} else if(button.getText().equals("Load different data files.")) {
+				
 			}
 		}
 	}
 
 	private List<String> args;
 
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 400;
 	private static final String APP_TITLE = "COVID-19 Spread";
 
@@ -105,8 +116,12 @@ public class Main extends Application {
 		// horizontal box to hold label and combo box of countries
 		HBox hcombo = new HBox();
 		hcombo.getChildren().addAll(combo_label, combo);
+		
+		// adds select country to top of pane
+		root.setTop(hcombo);
 
 		// create check boxes to select which data to display
+		Label graph_ops = new Label("Display data on graph: ");
 		CheckBox cb1 = new CheckBox("Total Confirmed Cases");
 		CheckBox cb2 = new CheckBox("Total Recovered Cases");
 		CheckBox cb3 = new CheckBox("Total Number of Deaths");
@@ -118,27 +133,65 @@ public class Main extends Application {
 		
 
 		// search button
-		Button search = new Button("Search");
+		Button search = new Button("Graph Data");
 
 		// create the handler instance for search button & check boxes
 		MyHandler search_handler = new MyHandler(search, combo, cb1, cb2, cb3);
 		search.setOnAction(search_handler);
-
-		// add check boxes to v box
-		VBox v_left = new VBox();
-		v_left.getChildren().addAll(hcombo, h1, h2, h3, search);
 		
+		// adds elements to v box for user graph selection
+		VBox v_left = new VBox();
+		v_left.getChildren().addAll(graph_ops, h1, h2, h3, search);
+		
+		// adds user selection options to left pane
 		root.setLeft(v_left);
+		
+		// vbox for additional options
+		VBox options = new VBox();
+		
+		
+		Label l1 = new Label("Additional options: ");
+		HBox op1 = new HBox();
+		Label add = new Label("ADD new data for specified date: ");
+		Button b1 = new Button("Submit");
+		TextField t1 = new TextField();
+		t1.setPromptText("< Type date here >");
+		op1.getChildren().addAll(add, t1, b1);
+		
+		HBox op2 = new HBox();
+		Label remove = new Label("REMOVE data for specified date: ");
+		Button b2 = new Button("Submit");
+		TextField t2 = new TextField();
+		t2.setPromptText("< Type date here >");
+		op2.getChildren().addAll(remove, t2, b2);
+		
+		HBox op3 = new HBox();
+		Label load = new Label("LOAD different data files: ");
+		Button b3 = new Button("Submit");
+		TextField t3 = new TextField();
+		t3.setPromptText("< Type data file path here >");
+		op3.getChildren().addAll(load, t3, b3);
+		
+		options.getChildren().addAll(l1, op1, op2, op3);
+		
+		
+		
+		//Button op1 = new Button("Type date here.");
+		//Button op2 = new Button("Remove a date.");
+		//Button op3 = new Button("Load different data files.");
+		//options.getChildren().addAll(l1, t1, op2, op3);
+		
+		// creates handler for additional options buttons
+		//MyHandler op1_handler = new MyHandler(op1);
+		//MyHandler op2_handler = new MyHandler(op2);
+		//MyHandler op3_handler = new MyHandler(op3);
+		//op1.setOnAction(op1_handler);
+		//op2.setOnAction(op2_handler);
+		//op3.setOnAction(op3_handler);
+		
+		// adds additional options to right pane 
+		root.setRight(options);
 
-		/*
-		 * // adds vertical box to left side of root pane VBox userSelections =
-		 * userSelect(); userSelections.getChildren().addAll(search);
-		 * root.setLeft(userSelections);
-		 */
-
-		// adds chart to right side of root pane
-		// VBox graph = graph();
-		// root.setRight(graph);
 
 		// creates main window
 		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -199,13 +252,22 @@ public class Main extends Application {
 			
 			lineChart.getData().addAll(d_data);
 		}
-
 		
-
 		lineChart.setTitle("COVID-19 Spread Data for " + country);
 		VBox chart = new VBox(lineChart);
 
 		return chart;
 	}
 
+	private void addNewData() {
+		
+	}
+	
+	private void removeData() {
+		
+	}
+	
+	private void loadData() {
+		
+	}
 }
