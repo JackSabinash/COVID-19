@@ -174,7 +174,7 @@ public class Main extends Application {
 		
 		options.getChildren().addAll(l1, op1, op2, op3);
 		// change
-		
+		///
 		
 		//Button op1 = new Button("Type date here.");
 		//Button op2 = new Button("Remove a date.");
