@@ -14,6 +14,7 @@ public class Data {
     dates = new ArrayList<String>();
     countryList = new ArrayList<Country>();
     this.filename = filename;
+    parseData();
   }
 
   public void parseData() {

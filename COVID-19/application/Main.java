@@ -8,7 +8,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.event.*;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -98,17 +98,23 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
+	    Data confirmed = new Data("confirmed.csv");
+	  
+		
 		args = this.getParameters().getRaw();
 
 		// main layout is Border Pane example (top,left,center,right,bottom)
 		BorderPane root = new BorderPane();
 
 		// country to search data from
-		String country[] = { "Country A", "Country B", "Country C", "Country D" };
+		ArrayList<String> countryList = new ArrayList<String>();
+		for (Country c : confirmed.countryList) {
+		  countryList.add(c.countryName);
+		}
+	
 
 		// create a combo box
-		ComboBox<String> combo = new ComboBox<String>(FXCollections.observableArrayList(country));
+		ComboBox<String> combo = new ComboBox<String>(FXCollections.observableArrayList(countryList));
 
 		// label for combo box
 		Label combo_label = new Label("Select County: ");
