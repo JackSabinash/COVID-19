@@ -71,6 +71,10 @@ public class Main extends Application {
 		for (Country c : confirmedData.countryList) {
 			countryList.add(c.countryName);
 		}
+		
+		Text title = new Text("COVID-19 Data Spread Tracker");
+		title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		
 
 		// create a combo box
 		ComboBox<String> combo = new ComboBox<String>(FXCollections.observableArrayList(countryList));
@@ -81,9 +85,11 @@ public class Main extends Application {
 		// horizontal box to hold label and combo box of countries
 		HBox hcombo = new HBox();
 		hcombo.getChildren().addAll(combo_label, combo);
+		VBox top = new VBox();
+		top.getChildren().addAll(title, hcombo);
 
 		// adds select country to top of pane
-		root.setTop(hcombo);
+		root.setTop(top);
 
 		// create check boxes to select which data to display
 		Label graph_ops = new Label("Display data on graph: ");
@@ -169,6 +175,7 @@ public class Main extends Application {
 		hcombo.getStyleClass().add("hbox");
 		//search.getStyleClass().add("button");
 		root.getStyleClass().add("pane");
+		top.getStyleClass().add("vbox");
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
