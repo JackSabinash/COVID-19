@@ -1,0 +1,23 @@
+.label {
+  -fx-font-size: 12pt;
+  -fx-padding: 5;
+}
+
+.vbox {
+  -fx-padding: 10;
+  -fx-spacing: 7;
+}
+
+.hbox {
+  -fx-padding: 3;
+}
+
+.button {
+  -fx-font-size: 10pt;
+  -fx-padding: 5;
+  -fx-spacing: 7;
+}
+
+.pane {
+  -fx-background-color: #F5F5F5;
+}

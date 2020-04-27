@@ -20,9 +20,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -33,8 +38,8 @@ public class Main extends Application {
 
 	private List<String> args;
 
-	private static final int WINDOW_WIDTH = 600;
-	private static final int WINDOW_HEIGHT = 400;
+	private static final int WINDOW_WIDTH = 430;
+	private static final int WINDOW_HEIGHT = 385;
 	private static final String APP_TITLE = "COVID-19 Spread";
 	Data confirmedData;
 	Data deathsData;
@@ -107,12 +112,11 @@ public class Main extends Application {
 			root2.setCenter(graph);
 
 			// adds and makes visible the second scene
-			Scene secondScene = new Scene(root2, WINDOW_WIDTH, WINDOW_HEIGHT);
+			Scene secondScene = new Scene(root2, 600, WINDOW_HEIGHT);
 			secondaryStage.setTitle(APP_TITLE + " Graph");
 			secondaryStage.setScene(secondScene);
 			secondaryStage.show();
 		});
-
 
 		// adds elements to v box for user graph selection
 		VBox v_left = new VBox();
@@ -125,38 +129,50 @@ public class Main extends Application {
 		VBox options = new VBox();
 
 		Label l1 = new Label("Additional options: ");
-		HBox op1 = new HBox();
-		Label add = new Label("ADD new data for specified date: ");
-		Button b1 = new Button("Submit");
-		TextField t1 = new TextField();
-		t1.setPromptText("< Type date here >");
-		op1.getChildren().addAll(add, t1, b1);
-
-		HBox op2 = new HBox();
-		Label remove = new Label("REMOVE data for specified date: ");
-		Button b2 = new Button("Submit");
-		TextField t2 = new TextField();
-		t2.setPromptText("< Type date here >");
-		op2.getChildren().addAll(remove, t2, b2);
-
-		HBox op3 = new HBox();
-		Label load = new Label("LOAD different data files: ");
-		Button b3 = new Button("Submit");
-		TextField t3 = new TextField();
-		t3.setPromptText("< Type data file path here >");
-		op3.getChildren().addAll(load, t3, b3);
-
-		options.getChildren().addAll(l1, op1, op2, op3);
 		
-		// adds additional options to right pane
-		root.setRight(options);
+		Button load = new Button("LOAD different data files");
+		Button change = new Button("CHANGE data for specified date");
+		// Button remove = new Button("REMOVE data for specified ");
+
+		// Label load = new Label("LOAD different data files: ");
+		// Button b3 = new Button("Submit");
+		// TextField t3 = new TextField();
+		// t3.setPromptText("< Type data file path here >");
+		// op3.getChildren().addAll(load, t3, b3);
+
+		options.getChildren().addAll(l1, load, change);
+
+		// adds graphing and additional options
+		v_left.getChildren().addAll(options);
+		root.setLeft(v_left);
 
 		// creates main window
-		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		Scene userScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		// scene change to load new data file
+		Scene loadScene = loadData(primaryStage, userScene);
+		load.setOnAction((e) -> {
+			primaryStage.setScene(loadScene);
+		});
+
+		// scene change to update info
+		Scene changeScene = changeData(primaryStage, userScene);
+		change.setOnAction((e) -> {
+			primaryStage.setScene(changeScene);
+		});
+
+		// styling
+		userScene.getStylesheets().add("application.css");
+		options.getStyleClass().add("vbox1");
+		v_left.getStyleClass().add("vbox");
+		l1.getStyleClass().add("label");
+		hcombo.getStyleClass().add("hbox");
+		//search.getStyleClass().add("button");
+		root.getStyleClass().add("pane");
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
-		primaryStage.setScene(mainScene);
+		primaryStage.setScene(userScene);
 		primaryStage.show();
 	}
 
@@ -228,15 +244,107 @@ public class Main extends Application {
 		return chart;
 	}
 
-	private void addNewData() {
+	private Scene changeData(Stage primaryStage, Scene userScene) {
+		BorderPane changeRoot = new BorderPane();
 
+		// button to go back to main scene
+		Button back = new Button("Back to Options");
+		changeRoot.setTop(back);
+
+		// vertical box to hold options for changing data
+		VBox changeBox = new VBox();
+		Text add = new Text("Update COVID-19 Case Information");
+		add.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+
+		// text fields to get users update info
+		TextField date = new TextField();
+		TextField confirmed = new TextField();
+		TextField recovered = new TextField();
+		TextField dead = new TextField();
+		date.setPromptText("< mm/dd/yyyy >");
+		confirmed.setPromptText("< Number of Cases >");
+		recovered.setPromptText("< Number of Cases >");
+		dead.setPromptText("< Number of Cases >");
+
+		// horizontal boxes to organize text fields
+		HBox dateBox = new HBox();
+		Label da = new Label("Date (mm/dd/yyyy): ");
+		dateBox.getChildren().addAll(da, date);
+
+		HBox cBox = new HBox();
+		Label c = new Label("Change confirmed cases to: ");
+		cBox.getChildren().addAll(c, confirmed);
+
+		HBox rBox = new HBox();
+		Label r = new Label("Change recovered cases to: ");
+		rBox.getChildren().addAll(r, recovered);
+
+		HBox dBox = new HBox();
+		Label de = new Label("Change number of deaths to: ");
+		dBox.getChildren().addAll(de, dead);
+
+		// updates vertical box contents to hold all information for updating
+		changeBox.getChildren().addAll(add, dateBox, cBox, rBox, dBox);
+
+		// hbox for removing a date and its data
+		HBox removeBox = new HBox();
+		Label remove = new Label("Remove data for specified date (mm/dd/yyyy): ");
+		TextField removeData = new TextField();
+		removeData.setPromptText("< mm/dd/yyyy >");
+		removeBox.getChildren().addAll(remove, removeData);
+
+		// button to finalize changes
+		Button submit = new Button("Submit changes to data");
+
+		// updates vertical box with changes and removal options
+		VBox changes = new VBox();
+		changes.getChildren().addAll(add, dateBox, cBox, rBox, dBox, removeBox, submit);
+
+		changeRoot.setLeft(changes);
+
+		back.setOnAction(e -> {
+			primaryStage.setScene(userScene);
+		});
+
+		Scene changeScene = new Scene(changeRoot, 550, WINDOW_HEIGHT);
+		changeScene.getStylesheets().add("application.css");
+		changes.getStyleClass().add("vbox");
+
+		return changeScene;
 	}
 
-	private void removeData() {
+	private Scene loadData(Stage primaryStage, Scene userScene) {
+		BorderPane loadRoot = new BorderPane();
 
-	}
+		// button to go back to main scene
+		Button back = new Button("Back to Options");
+		loadRoot.setTop(back);
 
-	private void loadData() {
+		// vertical box to hold load information
+		VBox loadBox = new VBox();
+		Text data = new Text("Upload new data file for COVID-19 Spread");
 
+		data.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+		Button submit_upload = new Button("Upload data");
+
+		// horizontal box to hold text field info
+		HBox fileBox = new HBox();
+		Label file = new Label("New data file path: ");
+		TextField t = new TextField();
+		t.setPromptText("< File Path >");
+		fileBox.getChildren().addAll(file, t);
+
+		loadBox.getChildren().addAll(data, fileBox, submit_upload);
+		loadRoot.setLeft(loadBox);
+
+		Scene loadScene = new Scene(loadRoot, WINDOW_WIDTH, WINDOW_HEIGHT);
+		loadScene.getStylesheets().add("application.css");
+		loadBox.getStyleClass().add("vbox");
+	
+		back.setOnAction(e -> {
+			primaryStage.setScene(userScene);
+		});
+
+		return loadScene;
 	}
 }
