@@ -95,7 +95,7 @@ public class Main extends Application {
 		HBox h1 = new HBox(cb1);
 		HBox h2 = new HBox(cb2);
 		HBox h3 = new HBox(cb3);
-
+		
 		// search button
 		Button search = new Button("Graph Data");
 		// search button event handler
@@ -261,14 +261,14 @@ public class Main extends Application {
 		TextField confirmed = new TextField();
 		TextField recovered = new TextField();
 		TextField dead = new TextField();
-		date.setPromptText("< mm/dd/yyyy >");
+		date.setPromptText("< mm/dd/yy >");
 		confirmed.setPromptText("< Number of Cases >");
 		recovered.setPromptText("< Number of Cases >");
 		dead.setPromptText("< Number of Cases >");
 
 		// horizontal boxes to organize text fields
 		HBox dateBox = new HBox();
-		Label da = new Label("Date (mm/dd/yyyy): ");
+		Label da = new Label("Date (mm/dd/yy): ");
 		dateBox.getChildren().addAll(da, date);
 
 		HBox cBox = new HBox();
@@ -288,9 +288,9 @@ public class Main extends Application {
 
 		// hbox for removing a date and its data
 		HBox removeBox = new HBox();
-		Label remove = new Label("Remove data for specified date (mm/dd/yyyy): ");
+		Label remove = new Label("Remove data for specified date (mm/dd/yy): ");
 		TextField removeData = new TextField();
-		removeData.setPromptText("< mm/dd/yyyy >");
+		removeData.setPromptText("< mm/dd/yy >");
 		removeBox.getChildren().addAll(remove, removeData);
 
 		// button to finalize changes
