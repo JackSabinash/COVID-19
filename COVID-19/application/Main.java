@@ -453,6 +453,7 @@ public class Main extends Application {
 		Scene changeScene = new Scene(changeRoot, 550, WINDOW_HEIGHT);
 		changeScene.getStylesheets().add("application.css");
 		changes.getStyleClass().add("vbox");
+		
 
 		return changeScene;
 	}
