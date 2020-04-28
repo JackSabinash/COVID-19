@@ -21,3 +21,7 @@
 .pane {
   -fx-background-color: #F5F5F5;
 }
+
+.vbox1 {
+  -fx-spacing: 7;
+}
