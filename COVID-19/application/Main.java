@@ -7,8 +7,15 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -453,7 +460,6 @@ public class Main extends Application {
 		Scene changeScene = new Scene(changeRoot, 550, WINDOW_HEIGHT);
 		changeScene.getStylesheets().add("application.css");
 		changes.getStyleClass().add("vbox");
-		
 
 		return changeScene;
 	}
@@ -517,6 +523,22 @@ public class Main extends Application {
 		Button back = new Button("Back to Options");
 		saveRoot.setTop(back);
 
+		// country to search data from
+		countryList = new ArrayList<String>();
+		for (Country c : confirmedData.countryList) {
+			countryList.add(c.countryName);
+		}
+
+		// create a combo box
+		ComboBox<String> combo = new ComboBox<String>(FXCollections.observableArrayList(countryList));
+
+		// label for combo box
+		Label combo_label = new Label("Select County: ");
+
+		// horizontal box to hold label and combo box of countries
+		HBox hcombo = new HBox();
+		hcombo.getChildren().addAll(combo_label, combo);
+
 		VBox saveBox = new VBox();
 		Text data = new Text("Save data files for COVID-19 Spread");
 		Text fileInfo = new Text("***File extensions much be .csv, .txt, .json, .xml, or .html***");
@@ -548,7 +570,7 @@ public class Main extends Application {
 		d.setPromptText("< File Name >");
 		dBox.getChildren().addAll(dFile, d);
 
-		saveBox.getChildren().addAll(data, fileInfo, cBox, rBox, dBox, submit_save);
+		saveBox.getChildren().addAll(data, fileInfo, hcombo, cBox, rBox, dBox, submit_save);
 		saveRoot.setLeft(saveBox);
 
 		Scene saveScene = new Scene(saveRoot, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -562,6 +584,95 @@ public class Main extends Application {
 			primaryStage.setScene(userScene);
 		});
 
+		// event handler for create files button
+		submit_save.setOnAction(e -> {
+			String country = combo.getValue();
+			// calls method to create files based on user selections
+			createFiles(country, c.getText(), r.getText(), d.getText());
+		});
+
 		return saveScene;
+	}
+
+	private void createFiles(String country, String confirmed, String recovered, String deaths) {
+		String outputData = "";
+		System.out.println(country);
+		System.out.println(confirmed);
+		System.out.println(recovered);
+		System.out.println(deaths);
+		// confirmed file input from user
+		if (!confirmed.equals("")) {
+			try { // creates output file to log data given users name
+				File outputFile = new File(confirmed);
+				FileWriter writer = new FileWriter(outputFile);
+				PrintWriter output = new PrintWriter(writer);
+
+				// data file to be re-routed to user output file
+				ArrayList<String> confirmDates = confirmedData.dates;
+				for (Country co : confirmedData.countryList) {
+					if (co.countryName.contentEquals(country)) {
+						for (int i = 0; i < confirmDates.size(); ++i) {
+							// creates string with date and corresponding case number
+							outputData = "Date: " + confirmDates.get(i) + " Total confirmed cases: " + co.num.get(i);
+							output.write(outputData);
+							output.println();
+						}
+					}
+				}
+				output.close();
+			} catch (IOException exception) {
+				System.out.println("Error in file input format.");
+			}
+		}
+		// recovered file input from user
+		if (!recovered.equals("")) {
+			try { // creates output file to log data given users name
+				File outputFile = new File(recovered);
+				FileWriter writer = new FileWriter(outputFile);
+				PrintWriter output = new PrintWriter(writer);
+
+				// data file to be re-routed to user output file
+				ArrayList<String> recovDates = recoveredData.dates;
+				for (Country co : recoveredData.countryList) {
+					if (co.countryName.contentEquals(country)) {
+						for (int i = 0; i < recovDates.size(); ++i) {
+							// creates string with date and corresponding case number
+							outputData = "Date: " + recovDates.get(i) + " Total recovered cases: " + co.num.get(i);
+							output.write(outputData);
+							output.println();
+						}
+					}
+				}
+				output.close();
+			} catch (IOException exception) {
+				System.out.println("Error in file input format.");
+			}
+
+		}
+		// deaths file input from user
+		if (!deaths.equals("")) {
+			try { // creates output file to log data given users name
+				File outputFile = new File(deaths);
+				FileWriter writer = new FileWriter(outputFile);
+				PrintWriter output = new PrintWriter(writer);
+
+				// data file to be re-routed to user output file
+				ArrayList<String> deathDates = deathsData.dates;
+				for (Country co : deathsData.countryList) {
+					if (co.countryName.contentEquals(country)) {
+						for (int i = 0; i < deathDates.size(); ++i) {
+							// creates string with date and corresponding case number
+							outputData = "Date: " + deathDates.get(i) + " Total deaths: " + co.num.get(i);
+							output.write(outputData);
+							output.println();
+						}
+					}
+				}
+				output.close();
+			} catch (IOException exception) {
+				System.out.println("Error in file input format.");
+			}
+		}
+
 	}
 }
