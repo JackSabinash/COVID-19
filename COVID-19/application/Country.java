@@ -2,7 +2,11 @@ package application;
 
 import java.util.ArrayList;
 
-// Country data type
+/**
+ * Data type for storing the name and data set for each country.
+ * 
+ * @param countryName constructor param used as the identifier for the country and contents
+ */
 public class Country {
   String countryName;
   ArrayList<String> num;

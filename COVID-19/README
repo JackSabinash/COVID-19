@@ -19,3 +19,6 @@ Add the ability to analyze data further with the graph, for example getting max 
 or the slope of the graph to anaylze the velocity at which the virus is spreading per country.
 Add the ability to plot every country's data on the same graph to be able to analyze the difference 
 in spread throughout the world's countrys.
+
+Data Source:
+https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases

@@ -66,9 +66,14 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		confirmedData = new Data("confirmed.csv");
-		deathsData = new Data("deaths.csv");
-		recoveredData = new Data("recovered.csv");
+	  try {
+	    confirmedData = new Data("confirmed.csv");
+        deathsData = new Data("deaths.csv");
+        recoveredData = new Data("recovered.csv");
+	  }
+	  catch (Exception e) {
+	    System.out.print("failure to parse starting data");
+	  }
 
 		args = this.getParameters().getRaw();
 

@@ -1,30 +1,41 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class Data to hold arrays of the data to be used by the main program from csv files.
+ * 
+ * @param String filename is a param for the instructor for the filename in the local directory 
+ * containing the csv in the correct format.
+ */
 public class Data {
   String filename;
   ArrayList<String> dates;
   ArrayList<Country> countryList;
 
-  Data(String filename) {
+  Data(String filename) throws IOException {
     dates = new ArrayList<String>();
     countryList = new ArrayList<Country>();
     this.filename = filename;
     parseData();
   }
 
-  public void parseData() {
+  /**
+   * parseData() parses the csv file given to the constructor for the Data class.
+   * @throws IOException 
+   * 
+   */
+  public void parseData() throws IOException {
     // Input file which needs to be parsed
     String fileToParse = filename;
     BufferedReader fileReader = null;
 
     // Delimiter used in CSV file
     final String DELIMITER = ",";
-    try {
       String line = "";
       // Create the file reader
       fileReader = new BufferedReader(new FileReader(fileToParse));
@@ -54,14 +65,6 @@ public class Data {
           countryList.add(temp);
         }
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        fileReader.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+    
   }
 }
