@@ -20,6 +20,8 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -518,9 +520,22 @@ public class Main extends Application {
 		Scene loadScene = new Scene(loadRoot, WINDOW_WIDTH, WINDOW_HEIGHT);
 		loadScene.getStylesheets().add("application.css");
 		loadBox.getStyleClass().add("vbox");
+		
+		//alert
+		Alert alert = new Alert(AlertType.NONE);
 
 		// goes back to main scene upon uploading files
 		submit_upload.setOnAction(e -> {
+		  try {
+		    confirmedData = new Data(t.getText());
+            deathsData = new Data(t3.getText());
+            recoveredData = new Data(t2.getText());
+		  }
+		  catch (Exception except) {
+		    alert.setAlertType(AlertType.ERROR);
+		    alert.setContentText("Error occured when parsing or filenames were incorrect. Please try loading again.");
+		    alert.show();
+		  }
 			primaryStage.setScene(userScene);
 		});
 
