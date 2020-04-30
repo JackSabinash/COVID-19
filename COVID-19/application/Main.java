@@ -499,6 +499,11 @@ public class Main extends Application {
 		Scene loadScene = new Scene(loadRoot, WINDOW_WIDTH, WINDOW_HEIGHT);
 		loadScene.getStylesheets().add("application.css");
 		loadBox.getStyleClass().add("vbox");
+		
+		// goes back to main scene upon uploading files
+		submit_upload.setOnAction(e -> {
+			primaryStage.setScene(userScene);
+		});
 
 		// go back to main user scene
 		back.setOnAction(e -> {
@@ -594,6 +599,14 @@ public class Main extends Application {
 		return saveScene;
 	}
 
+	/**
+	 * Creates the output files based on names specified by user.
+	 * 
+	 * @param country name user wants data saved for
+	 * @param confirmed data file name
+	 * @param recovered data file name
+	 * @param deaths data file name
+	 */
 	private void createFiles(String country, String confirmed, String recovered, String deaths) {
 		String outputData = "";
 		System.out.println(country);
