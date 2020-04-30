@@ -1,3 +1,11 @@
+/**
+ * Data class for parsing .csv files with corona virus data
+ * Utilizes Classes Country.java
+ * 
+ * @author Jack Sabinash
+ * @author Gabi Bigalke
+ */
+
 package application;
 
 import java.io.BufferedReader;

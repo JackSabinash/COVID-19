@@ -1,6 +1,13 @@
 /**
+ * Main class for running GUI implementing javaFX
+ * Utilizes Classes Data.java and Country.java
  * 
+ * Must have source files confirmed.csv, deaths.csv, recovered.csv
+ * 
+ * @author Jack Sabinash
+ * @author Gabi Bigalke
  */
+
 package application;
 
 import javafx.scene.chart.CategoryAxis;
@@ -14,11 +21,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -35,10 +40,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- * @author gabrielle
- *
- */
 public class Main extends Application {
 
 	private List<String> args;
@@ -643,10 +644,6 @@ public class Main extends Application {
 	 */
 	private void createFiles(String country, String confirmed, String recovered, String deaths) {
 		String outputData = "";
-		System.out.println(country);
-		System.out.println(confirmed);
-		System.out.println(recovered);
-		System.out.println(deaths);
 		// confirmed file input from user
 		if (!confirmed.equals("")) {
 			try { // creates output file to log data given users name

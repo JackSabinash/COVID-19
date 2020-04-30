@@ -1,3 +1,10 @@
+/**
+ * Country class for storing data for each country
+ * 
+ * @author Jack Sabinash
+ * @author Gabi Bigalke
+ */
+
 package application;
 
 import java.util.ArrayList;
