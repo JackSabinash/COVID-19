@@ -509,7 +509,8 @@ public class Main extends Application {
 		TextField t3 = new TextField();
 		t3.setPromptText("< Data File Path >");
 		fileBox3.getChildren().addAll(file3, t3);
-
+		
+		// added to vertical box
 		loadBox.getChildren().addAll(data, fileBox, fileBox2, fileBox3, submit_upload);
 		loadRoot.setLeft(loadBox);
 
