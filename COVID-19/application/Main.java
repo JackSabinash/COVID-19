@@ -66,14 +66,13 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-	  try {
-	    confirmedData = new Data("confirmed.csv");
-        deathsData = new Data("deaths.csv");
-        recoveredData = new Data("recovered.csv");
-	  }
-	  catch (Exception e) {
-	    System.out.print("failure to parse starting data");
-	  }
+		try {
+			confirmedData = new Data("confirmed.csv");
+			deathsData = new Data("deaths.csv");
+			recoveredData = new Data("recovered.csv");
+		} catch (Exception e) {
+			System.out.print("failure to parse starting data");
+		}
 
 		args = this.getParameters().getRaw();
 
@@ -492,19 +491,33 @@ public class Main extends Application {
 
 		// horizontal box to hold text field info
 		HBox fileBox = new HBox();
-		Label file = new Label("New data file path: ");
+		Label file = new Label("New data for confirmed cases: ");
 		TextField t = new TextField();
-		t.setPromptText("< File Path >");
+		t.setPromptText("< Data File Path >");
 		fileBox.getChildren().addAll(file, t);
 
-		loadBox.getChildren().addAll(data, fileBox, submit_upload);
+		// horizontal box to hold text field info
+		HBox fileBox2 = new HBox();
+		Label file2 = new Label("New data for recovered cases: ");
+		TextField t2 = new TextField();
+		t2.setPromptText("< Data File Path >");
+		fileBox2.getChildren().addAll(file2, t2);
+
+		// horizontal box to hold text field info
+		HBox fileBox3 = new HBox();
+		Label file3 = new Label("New data for total deaths: ");
+		TextField t3 = new TextField();
+		t3.setPromptText("< Data File Path >");
+		fileBox3.getChildren().addAll(file3, t3);
+
+		loadBox.getChildren().addAll(data, fileBox, fileBox2, fileBox3, submit_upload);
 		loadRoot.setLeft(loadBox);
 
 		// styling
 		Scene loadScene = new Scene(loadRoot, WINDOW_WIDTH, WINDOW_HEIGHT);
 		loadScene.getStylesheets().add("application.css");
 		loadBox.getStyleClass().add("vbox");
-		
+
 		// goes back to main scene upon uploading files
 		submit_upload.setOnAction(e -> {
 			primaryStage.setScene(userScene);
@@ -607,10 +620,10 @@ public class Main extends Application {
 	/**
 	 * Creates the output files based on names specified by user.
 	 * 
-	 * @param country name user wants data saved for
+	 * @param country   name user wants data saved for
 	 * @param confirmed data file name
 	 * @param recovered data file name
-	 * @param deaths data file name
+	 * @param deaths    data file name
 	 */
 	private void createFiles(String country, String confirmed, String recovered, String deaths) {
 		String outputData = "";
