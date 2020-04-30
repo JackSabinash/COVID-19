@@ -606,6 +606,8 @@ public class Main extends Application {
 				File outputFile = new File(confirmed);
 				FileWriter writer = new FileWriter(outputFile);
 				PrintWriter output = new PrintWriter(writer);
+				output.write(country + " COVID-19 Confirmed Cases Data:");
+				output.println();
 
 				// data file to be re-routed to user output file
 				ArrayList<String> confirmDates = confirmedData.dates;
@@ -630,6 +632,8 @@ public class Main extends Application {
 				File outputFile = new File(recovered);
 				FileWriter writer = new FileWriter(outputFile);
 				PrintWriter output = new PrintWriter(writer);
+				output.write(country + " COVID-19 Recovered Cases Data:");
+				output.println();
 
 				// data file to be re-routed to user output file
 				ArrayList<String> recovDates = recoveredData.dates;
@@ -655,6 +659,8 @@ public class Main extends Application {
 				File outputFile = new File(deaths);
 				FileWriter writer = new FileWriter(outputFile);
 				PrintWriter output = new PrintWriter(writer);
+				output.write(country + " COVID-19 Total Deaths Data:");
+				output.println();
 
 				// data file to be re-routed to user output file
 				ArrayList<String> deathDates = deathsData.dates;
